@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Pomodoro Timer</title>
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+            <section class="container">
+                <div class="header"><p>COUNTDOWN TIMER</p> <img src="assets/close.jpg" alt="Fechar"></div>
+                <div class="time">
+                    <span id="minutes"> 00 </span><p> Hour</p><span id="seconds"> 00 </span><p> Min </p> 
+                </div>
+                <div class="footer">
+                    <button onclick="startCounter()"><i data-feather="play"></i></button>
+                    <button onclick="pauseCounter()"><i data-feather="pause"></i></button>
+                    <button onclick="resetCounter()"><i data-feather="refresh-cw"></i></button>
+                </div>
+            </section>
+
+
+    <script>
+        feather.replace()
+        let minutes, seconds, counterInterval = undefined;
+
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+
+        resetCounter();
+
+        function updateCounterEl() {
+          minutesEl.innerHTML = minutes < 10 ? `0${minutes}` : minutes;
+          secondsEl.innerHTML = seconds < 10 ? `0${seconds}`: seconds;
+        }
+
+        function startCounter() {
+          if (counterInterval) return; //if counterInterval exister, tiver algo setado faz return
+
+              counterInterval = setInterval( () => {
+                const timeOver = !seconds && !minutes;
+                const secondsOver = !seconds; //se não há nada setado nas variaveis (considerado false, e 0)
+
+                //se não há nada setado em ambas (ou seja, igual a 0) é true,ent faz return
+                if (timeOver) return destroyInterval(); 
+
+                //se somente o seconds for igual a 0
+                if (secondsOver) {
+                    seconds = 59;
+                    --minutes;
+                    updateCounterEl();
+                    return;
+                }
+                
+                --seconds;
+                updateCounterEl();
+
+            },1000); //a função conta 1000s
+        }
+
+        function pauseCounter() {
+            destroyInterval();
+        }
+
+        function destroyInterval() {
+            clearInterval(counterInterval);
+            counterInterval = undefined;
+        }// a função interrompe a contagem com o metodo clearInterval e deixa vazio o counterInterval
+
+        function resetCounter() {
+            destroyInterval();
+            minutes = 24;
+            seconds = 00;
+            updateCounterEl();
+        }
+
+    </script>
+</body>
+</html>
