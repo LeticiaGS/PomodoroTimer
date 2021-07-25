@@ -76,18 +76,29 @@ body {
 }
 
 button {
-    height: fit-content;
+    height: 40px;
+    width: 40px;
     padding: 4px 8px;
-    background-color: lightblue;
-    border-radius: 10px;
-    border: 1px solid rgb(12, 51, 65);
     text-align: center;
-
+    position: relative;
+    
+    background-color: transparent;
+    border-radius: 10px;
+    border: 0;
     cursor: pointer;
 }
 
-button i svg {
-    height: 20px;
-    width: 20px;
+button svg {
+    height: 25px;
+    width: 25px;
+    color: var(--darkblue);
+
+    position: absolute;
+    top: 8px;
+    right: 6px;
+}
+
+button svg:hover {
+    color: var(--littleblue);
 }
 

@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sweetalert2/dist/sweetalert2.min.css">
     <title>Pomodoro Timer</title>
     <script src="https://unpkg.com/feather-icons"></script>
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
 </head>
 <body>
             <section class="container">
                 <div class="header"><p>COUNTDOWN TIMER</p> <img src="assets/close.jpg" alt="Fechar"></div>
                 <div class="time">
-                    <span id="minutes"> 00 </span><p> Hour</p><span id="seconds"> 00 </span><p> Min </p> 
+                    <span id="minutes"> 00 </span><p> Min</p><span id="seconds"> 00 </span><p> Seg </p> 
                 </div>
                 <div class="footer">
+                    <button onclick="editCounter()"><i data-feather="edit"></i></button>
                     <button onclick="startCounter()"><i data-feather="play"></i></button>
                     <button onclick="pauseCounter()"><i data-feather="pause"></i></button>
                     <button onclick="resetCounter()"><i data-feather="refresh-cw"></i></button>
@@ -23,10 +26,11 @@
 
     <script>
         feather.replace()
-        let minutes, seconds, counterInterval = undefined;
+        let minutes, seconds, counterInterval, editSeg, editMin = undefined;
 
         const minutesEl = document.getElementById('minutes');
         const secondsEl = document.getElementById('seconds');
+    
 
         resetCounter();
 
@@ -40,7 +44,7 @@
 
               counterInterval = setInterval( () => {
                 const timeOver = !seconds && !minutes;
-                const secondsOver = !seconds; //se não há nada setado nas variaveis (considerado false, e 0)
+                const secondsOver = !seconds; //se não há nada setado nas variaveis (considerado 0)
 
                 //se não há nada setado em ambas (ou seja, igual a 0) é true,ent faz return
                 if (timeOver) return destroyInterval(); 
@@ -72,6 +76,29 @@
             destroyInterval();
             minutes = 24;
             seconds = 00;
+            updateCounterEl();
+        }
+
+        function editCounter() {
+            destroyInterval();
+            editMin = prompt('Quantos MINUTOS gostaria de inserir no timer?');
+            editSeg = prompt('Quantos SEGUNDOS gostaria de inserir no timer?');
+
+            if (editMin > 60 || editSeg > 60) {
+            alert('Um dos seus valores é maior do que 60. Por favor insira um valor abaixo.');
+            editMin = prompt('Quantos MINUTOS gostaria de inserir no timer?');
+            editSeg = prompt('Quantos SEGUNDOS gostaria de inserir no timer?');
+            } 
+            minutes = editMin;
+            seconds = editSeg;
+
+            if (seconds == 0) 
+                seconds = 00;
+            else
+                seconds = editSeg;
+            if (minutes == null) 
+                resetCounter()
+        
             updateCounterEl();
         }
 
